@@ -63,7 +63,8 @@ const BookTicketForm = () => {
     <div className="container" style={{ backgroundColor: '#800000' }}>
       <div className="body-cover" style={{ padding: '0%' }}>
         <div className="contact-us">
-          <form className="contact-form">
+          <form className="contact-form" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="0daf682c-49f2-4919-bdfb-26e56f9ffe52"></input>
             <div className="form-tab">
               <label htmlFor="name">Name</label>
               <input 

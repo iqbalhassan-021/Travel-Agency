@@ -45,7 +45,8 @@ const BookAppointmentForm = () => {
     <div className="container" style={{ backgroundColor: '#800000' }}>
       <div className="body-cover" style={{ padding: '0%' }}>
         <div className="contact-us">
-          <div className="contact-form">
+          <form className="contact-form" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="0daf682c-49f2-4919-bdfb-26e56f9ffe52"></input>
             <div className="form-tab">
               <label htmlFor="name">Name</label>
               <input 
@@ -53,8 +54,7 @@ const BookAppointmentForm = () => {
                 id="name" 
                 name="name" 
                 placeholder="Your Name"
-                value={formData.name}
-                onChange={handleChange}
+    
               />
             </div>
             <div className="form-tab">
@@ -64,8 +64,7 @@ const BookAppointmentForm = () => {
                 id="phone" 
                 name="phone" 
                 placeholder="Phone Number"
-                value={formData.phone}
-                onChange={handleChange}
+        
               />
             </div>
             <div className="form-tab">
@@ -75,8 +74,7 @@ const BookAppointmentForm = () => {
                 id="cnic" 
                 name="cnic" 
                 placeholder="CNIC"
-                value={formData.cnic}
-                onChange={handleChange}
+      
               />
             </div>
             <div className="form-tab">
@@ -84,8 +82,7 @@ const BookAppointmentForm = () => {
               <select 
                 name="applyingFor" 
                 id="for" 
-                value={formData.applyingFor}
-                onChange={handleChange}
+      
               >
                 <option value="myselfe">My Selfe</option>
                 <option value="Other">Other</option>
@@ -96,8 +93,7 @@ const BookAppointmentForm = () => {
               <select 
                 name="purpose" 
                 id="purpose" 
-                value={formData.purpose}
-                onChange={handleChange}
+      
               >
                 <option value="">Select a Country</option>
                 {loading ? (
@@ -116,7 +112,12 @@ const BookAppointmentForm = () => {
                 )}
               </select>
             </div>
-          </div>
+            <div className="form-tab">
+                            <button type="submit" className="primary-button rounded">
+                                Submit
+                            </button>
+                        </div>
+          </form>
         </div>
       </div>
     </div>

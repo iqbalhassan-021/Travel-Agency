@@ -1,30 +1,14 @@
 import React, { useState } from 'react';
 
 const ContactForm = () => {
-    const [formData, setFormData] = useState({
-        name: '',
-        phone: '',
-        subject: '',
-        message: '',
-    });
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Add form submission logic here
-        console.log('Form Submitted:', formData);
-        alert('Thank you for contacting us!');
-    };
+    
 
     return (
         <div className="container" style={{ backgroundColor: '#800000' }}>
             <div className="body-cover">
                 <div className="contact-us">
-                    <form className="contact-form" onSubmit={handleSubmit}>
+                    <form className="contact-form" action="https://api.web3forms.com/submit" method="POST">
+                    <input type="hidden" name="access_key" value="0daf682c-49f2-4919-bdfb-26e56f9ffe52"></input>
                         <div className="form-tab">
                             <label htmlFor="name">Name</label>
                             <input
@@ -32,8 +16,7 @@ const ContactForm = () => {
                                 id="name"
                                 name="name"
                                 placeholder="Your Name"
-                                value={formData.name}
-                                onChange={handleChange}
+                             
                             />
                         </div>
                         <div className="form-tab">
@@ -43,8 +26,8 @@ const ContactForm = () => {
                                 id="phone"
                                 name="phone"
                                 placeholder="Phone Number"
-                                value={formData.phone}
-                                onChange={handleChange}
+                           
+                   
                             />
                         </div>
                         <div className="form-tab">
@@ -54,8 +37,7 @@ const ContactForm = () => {
                                 id="subject"
                                 name="subject"
                                 placeholder="Reason to contact"
-                                value={formData.subject}
-                                onChange={handleChange}
+                             
                             />
                         </div>
                         <div className="form-tab">
@@ -65,8 +47,7 @@ const ContactForm = () => {
                                 id="message"
                                 rows="10"
                                 placeholder="Message"
-                                value={formData.message}
-                                onChange={handleChange}
+                            
                             />
                         </div>
                         <div className="form-tab">

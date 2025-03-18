@@ -53,7 +53,7 @@ const WhyUs = () => {
                     {reasons.map((reason, index) => (
                         <div className="reason-card" key={index}>
                             <h3>
-                                <i className={reason.icon}></i>
+                                <i className={reason.icon}></i> <span> </span>
                                 {reason.title}
                             </h3>
                             <p>{reason.description}</p>

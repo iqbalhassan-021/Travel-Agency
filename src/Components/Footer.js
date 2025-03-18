@@ -144,7 +144,7 @@ const Footer = ({ marginTop }) => {
                   Contact: {siteInfo.contactNumber}
                 </a>
                 <a 
-                  href="#" 
+                  href="https://hassansbio.netlify.app/" 
                   className="no-decoration"
                 >
                   Developer
@@ -152,7 +152,8 @@ const Footer = ({ marginTop }) => {
               </div>
               <div className="footer-card">
                 <h3>Newsletter</h3>
-                <form className="sub">
+                <form className="sub"  action="https://api.web3forms.com/submit" method="POST">
+                <input type="hidden" name="access_key" value="0daf682c-49f2-4919-bdfb-26e56f9ffe52"></input>
                   <input type="email" name="email" id="email" placeholder="email" />
                   <button type="submit">
                     <i className="fa-solid fa-check"></i>

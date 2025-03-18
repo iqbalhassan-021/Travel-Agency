@@ -3,31 +3,33 @@ import { collection, getDocs } from "firebase/firestore";
 import { firestore } from '../firebase'; // Adjust the import path based on your Firebase config file location
 
 const Hero = () => {
-  // State to manage hero text
-  const [heroText, setHeroText] = useState("HAJJ UMRAH"); // Default fallback
+  // State to manage hero content
+  const [heading, setHeading] = useState("HAJJ UMRAH"); // Default fallback for heading
+  const [text, setText] = useState("Hajj and Umrah packages are available at low and affordable prices"); // Default fallback for text
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // Fetch hero text from Firestore on mount
+  // Fetch hero data from Firestore on mount
   useEffect(() => {
-    const fetchHeroText = async () => {
+    const fetchHeroData = async () => {
       try {
-        const querySnapshot = await getDocs(collection(firestore, "siteInfo"));
+        const querySnapshot = await getDocs(collection(firestore, "hero"));
         if (!querySnapshot.empty) {
-          const siteData = querySnapshot.docs[0].data(); // Assuming one document for site info
-          setHeroText(siteData.heroText || "HAJJ UMRAH"); // Use fetched text or fallback
+          const siteData = querySnapshot.docs[0].data();
+          setHeading(siteData.heading || "HAJJ UMRAH"); // Use fetched heading or fallback
+          setText(siteData.text || "Hajj and Umrah packages are available at low and affordable prices"); // Use fetched text or fallback
         }
         setLoading(false);
       } catch (err) {
-        console.error("Error fetching hero text: ", err);
-        setError('Failed to load hero text.');
+        console.error("Error fetching hero data: ", err);
+        setError('Failed to load hero content.');
         setLoading(false);
       }
     };
-    fetchHeroText();
+    fetchHeroData();
   }, []);
 
-  const headingWords = heroText.split(' ');
+  const headingWords = heading.split(' ');
   const fontClass = headingWords.length > 2 ? 'smallerFontSize' : 'largerFontSize';
 
   return (
@@ -41,10 +43,10 @@ const Hero = () => {
           ) : (
             <>
               <h1 id="heading" className={fontClass}>
-                {heroText}
+                {heading}
               </h1>
               <p>
-                Hajj and Umrah packages are available at low and affordable prices
+                {text}
               </p>
               <br />
               <br />
