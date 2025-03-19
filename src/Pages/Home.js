@@ -11,6 +11,10 @@ import WhyUs from '../Components/WhyUs'
 import ContactForm from '../Components/ContactForm'
 import QuickSection from '../Components/QuickSection'
 import Footer from '../Components/Footer'
+import VisaSlider from '../Components/VisaSlider'
+import AppointmentsSlider from '../Components/AppoitmentsSlider'
+import Tours from '../Components/Tour'
+
 
 const Home = () => {
   return (
@@ -23,7 +27,10 @@ const Home = () => {
       <SearchTickets/>
       <AirwaysGrid/>
       <Hajjintro/>
-     <AvailablePackages/>
+      <VisaSlider/>
+      <AppointmentsSlider/>
+      <Tours/>
+     {/* <AvailablePackages/> */}
      <WhoAreWe/>
      <WhyUs/>
      <ContactForm/>

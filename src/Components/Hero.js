@@ -50,7 +50,7 @@ const Hero = () => {
               </p>
               <br />
               <br />
-              <a href="#" className="no-decoration primary-button rounded">
+              <a href="/visa" className="no-decoration primary-button rounded">
                 Get Started
               </a>
             </>

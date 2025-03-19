@@ -14,6 +14,9 @@ import BookAppointment from './Pages/BookAppointment';
 import TicketBooking from './Pages/TicketBooking';
 import Auth from './Pages/Auth';
 import Admin from './Pages/Admin';
+import VisaInfo from './Pages/VisaInfo';
+import AppointmentInfo from './Pages/AppointmentsInfo';
+import BookTour from './Pages/TourBooking';
 
 // Function to check if the user is authenticated
 const isAuthenticated = () => {
@@ -27,6 +30,10 @@ const ProtectedRoute = ({ element }) => {
 
 function App() {
   return (
+    <>
+    <head>
+    <title>Excellect Stars Travel and Tours</title>
+    </head>
     <Router>
       <Routes>
         <Route path="/auth" element={<Auth />} />
@@ -43,8 +50,12 @@ function App() {
         <Route path="/appointments" element={<Appointments />} />
         <Route path="/book-appointment" element={<BookAppointment />} />
         <Route path="/book-ticket" element={<TicketBooking />} />
+        <Route path="/visaInfo/:id" element={<VisaInfo />} />
+        <Route path="/appointmentInfo/:id" element={<AppointmentInfo />} />
+        <Route path="/book-tour" element={<BookTour />} />
       </Routes>
     </Router>
+    </>
   );
 }
 

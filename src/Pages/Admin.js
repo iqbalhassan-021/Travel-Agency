@@ -8,6 +8,7 @@ const AdminPanel = () => {
   const [tickets, setTickets] = useState([]);
   const [visas, setVisas] = useState([]);
   const [appointments, setAppointments] = useState([]);
+  const [tours, setTours] = useState([]); // New state for tours
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -20,12 +21,16 @@ const AdminPanel = () => {
   });
   
   const [visaForm, setVisaForm] = useState({
-    country: '', documents: '', price: '', processingTime: '', visaType: ''
+    country: '', documents: '', price: '', processingTime: '', visaType: '', VisaImage: ''
   });
   
   const [appointmentForm, setAppointmentForm] = useState({
-    type: '', country: '', price: '', date: '', consultant: ''
+    type: '', country: '', price: '', date: '', consultant: '', appimg: ''
   });
+  
+  const [tourForm, setTourForm] = useState({
+    imageUrl: '', country: '', price: '', duration: '', date: '', requiredDocuments: ''
+  }); // New form state for tours
   
   const [basicInfoForm, setBasicInfoForm] = useState({
     siteName: '', logo: '', aboutText: ''
@@ -52,12 +57,16 @@ const AdminPanel = () => {
   };
   
   const visaResetForm = {
-    country: '', documents: '', price: '', processingTime: '', visaType: ''
+    country: '', documents: '', price: '', processingTime: '', visaType: '', VisaImage: ''
   };
   
   const appointmentResetForm = {
-    type: '', country: '', price: '', date: '', consultant: ''
+    type: '', country: '', price: '', date: '', consultant: '', appimg: ''
   };
+  
+  const tourResetForm = {
+    imageUrl: '', country: '', price: '', duration: '', date: '', requiredDocuments: ''
+  }; // New reset form for tours
   
   const notificationResetForm = {
     message: ''
@@ -102,6 +111,19 @@ const AdminPanel = () => {
       throw error;
     }
   };
+
+  const saveTour = async (tourData) => {
+    try {
+      const docRef = await addDoc(collection(firestore, "tours"), {
+        ...tourData,
+        createdAt: new Date().toISOString()
+      });
+      return docRef.id;
+    } catch (error) {
+      console.error("Error saving tour:", error);
+      throw error;
+    }
+  }; // New save function for tours
 
   const saveBasicInfo = async (basicInfoData) => {
     try {
@@ -175,6 +197,10 @@ const AdminPanel = () => {
           docId = await saveAppointment(formData);
           setAppointments([...appointments, { ...formData, id: docId }]);
           break;
+        case 'tours':
+          docId = await saveTour(formData);
+          setTours([...tours, { ...formData, id: docId }]);
+          break; // New case for tours
         case 'notifications':
           docId = await saveNotification(formData);
           setNotifications([...notifications, { ...formData, id: docId }]);
@@ -240,7 +266,7 @@ const AdminPanel = () => {
 
   // Load initial data
   useEffect(() => {
-    const collections = ['tickets', 'visas', 'appointments', 'notifications'];
+    const collections = ['tickets', 'visas', 'appointments', 'tours', 'notifications']; // Added 'tours'
     collections.forEach(async (col) => {
       try {
         const querySnapshot = await getDocs(collection(firestore, col));
@@ -249,6 +275,7 @@ const AdminPanel = () => {
           case 'tickets': setTickets(data); break;
           case 'visas': setVisas(data); break;
           case 'appointments': setAppointments(data); break;
+          case 'tours': setTours(data); break; // New case for tours
           case 'notifications': setNotifications(data); break;
         }
       } catch (error) {
@@ -262,7 +289,7 @@ const AdminPanel = () => {
       <div className="sidebar">
         <h2>Travel Admin</h2>
         <ul>
-          {['tickets', 'visas', 'appointments', 'basicInfo', 'socials', 'hero', 'notifications'].map(section => (
+          {['tickets', 'visas', 'appointments', 'tours', 'basicInfo', 'socials', 'hero', 'notifications'].map(section => (
             <li 
               key={section} 
               className={activeSection === section ? 'active' : ''} 
@@ -313,6 +340,7 @@ const AdminPanel = () => {
           <section>
             <h2>Manage Visas</h2>
             <form onSubmit={(e) => handleAdd(e, 'visas', visaForm, setVisaForm, visaResetForm)}>
+              <input type="text" placeholder="Image URL" value={visaForm.VisaImage} onChange={(e) => setVisaForm({ ...visaForm, VisaImage: e.target.value })} required />
               <input type="text" placeholder="Country" value={visaForm.country} onChange={(e) => setVisaForm({ ...visaForm, country: e.target.value })} required />
               <textarea placeholder="Required Documents" value={visaForm.documents} onChange={(e) => setVisaForm({ ...visaForm, documents: e.target.value })} required />
               <input type="number" placeholder="Price" value={visaForm.price} onChange={(e) => setVisaForm({ ...visaForm, price: e.target.value })} required />
@@ -335,6 +363,7 @@ const AdminPanel = () => {
           <section>
             <h2>Manage Appointments</h2>
             <form onSubmit={(e) => handleAdd(e, 'appointments', appointmentForm, setAppointmentForm, appointmentResetForm)}>
+              <input type="text" placeholder="Image URL" value={appointmentForm.appimg} onChange={(e) => setAppointmentForm({ ...appointmentForm, appimg: e.target.value })} required />
               <select value={appointmentForm.type} onChange={(e) => setAppointmentForm({ ...appointmentForm, type: e.target.value })} required>
                 <option value="">Select Type</option>
                 <option value="Work Visa">Work Visa</option>
@@ -352,6 +381,29 @@ const AdminPanel = () => {
                 <div key={apt.id} className="list-item">
                   <span>{apt.type} - {apt.country} (${apt.price})</span>
                   <button className="delete-btn" onClick={() => handleDelete(apt.id, 'appointments', setAppointments, appointments)}>Delete</button>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeSection === 'tours' && (
+          <section>
+            <h2>Manage Tours</h2>
+            <form onSubmit={(e) => handleAdd(e, 'tours', tourForm, setTourForm, tourResetForm)}>
+              <input type="text" placeholder="Image URL" value={tourForm.imageUrl} onChange={(e) => setTourForm({ ...tourForm, imageUrl: e.target.value })} required />
+              <input type="text" placeholder="Country" value={tourForm.country} onChange={(e) => setTourForm({ ...tourForm, country: e.target.value })} required />
+              <input type="number" placeholder="Price" value={tourForm.price} onChange={(e) => setTourForm({ ...tourForm, price: e.target.value })} required />
+              <input type="text" placeholder="Duration (e.g., 5 days)" value={tourForm.duration} onChange={(e) => setTourForm({ ...tourForm, duration: e.target.value })} required />
+              <input type="date" placeholder="Tour Date" value={tourForm.date} onChange={(e) => setTourForm({ ...tourForm, date: e.target.value })} required />
+              <textarea placeholder="Required Documents" value={tourForm.requiredDocuments} onChange={(e) => setTourForm({ ...tourForm, requiredDocuments: e.target.value })} required />
+              <button type="submit" disabled={loading}>Add Tour</button>
+            </form>
+            <div className="list">
+              {tours.map(tour => (
+                <div key={tour.id} className="list-item">
+                  <span>{tour.country} - ${tour.price} ({tour.duration})</span>
+                  <button className="delete-btn" onClick={() => handleDelete(tour.id, 'tours', setTours, tours)}>Delete</button>
                 </div>
               ))}
             </div>

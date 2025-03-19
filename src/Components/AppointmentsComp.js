@@ -3,39 +3,39 @@ import { Link } from 'react-router-dom';
 import { collection, getDocs } from "firebase/firestore";
 import { firestore } from '../firebase'; // Adjust the import path based on your Firebase config file location
 
-const AppointmentsComp = () => {
-  // State to manage appointment packages
-  const [appointments, setAppointments] = useState([]);
+const AvailablePackages = () => {
+  // State to manage visa packages
+  const [appointmentsPkgs, setappointmentsPkgs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // Fetch appointments from Firestore on mount
+  // Fetch visa packages from Firestore on mount
   useEffect(() => {
-    const fetchAppointments = async () => {
+    const fetchVisas = async () => {
       try {
         const querySnapshot = await getDocs(collection(firestore, "appointments"));
-        const appointmentsData = querySnapshot.docs.map(doc => ({
+        const visasData = querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
         }));
-        setAppointments(appointmentsData);
+        setappointmentsPkgs(visasData);
         setLoading(false);
       } catch (err) {
-        console.error("Error fetching appointments: ", err);
-        setError('Failed to load appointments. Please try again later.');
+        console.error("Error fetching visa packages: ", err);
+        setError('Failed to load visa packages. Please try again later.');
         setLoading(false);
       }
     };
-    fetchAppointments();
+    fetchVisas();
   }, []);
 
   // Render loading or error state
   if (loading) {
     return (
       <div className="container">
-        <p className="section-heading">Available Appointments</p>
+
         <div className="body-cover">
-          <p>Loading appointments...</p>
+          <p>Loading visa appointments...</p>
         </div>
       </div>
     );
@@ -44,7 +44,7 @@ const AppointmentsComp = () => {
   if (error) {
     return (
       <div className="container">
-        <p className="section-heading">Available Appointments</p>
+     
         <div className="body-cover">
           <p style={{ color: 'red' }}>{error}</p>
         </div>
@@ -54,37 +54,29 @@ const AppointmentsComp = () => {
 
   return (
     <div className="container">
-      <p className="section-heading">Available Appointments</p>
+    
       <div className="body-cover">
-        <div className="grid-4x">
-          {appointments.length === 0 ? (
-            <p>No appointments available at this time.</p>
+        <div className="grid-4x visa-4x">
+          {appointmentsPkgs.length === 0 ? (
+            <p>No visa packages available at this time.</p>
           ) : (
-            appointments.map((pkg) => (
-              <div className="visa-card" key={pkg.id}>
-                {/* Country Name and Type */}
-                <div className="countery" >
-                  <h2 style={{ color: 'white' }}>{pkg.country} - {pkg.type}</h2>
-                </div>
-
-                {/* Price */}
-                <div className="price">
-                  <h1>${pkg.price}</h1>
-                </div>
-
-                {/* Consultant and Date */}
-                <div className="docs">
-                  <p><strong>Consultant:</strong> {pkg.consultant}</p>
-                  <p><strong>Date:</strong> {pkg.date}</p>
-                </div>
-
-                {/* Book Now Button */}
-                <div className="book">
-                  <Link to="/book-appointment" className="no-decoration primary-button rounded">
-                    Book Now
-                  </Link>
-                </div>
+            appointmentsPkgs.map((appointment) => (
+            <div className="slider-card" key={appointment.id}>
+              <div 
+                className="slider-img" 
+                style={{ 
+                  backgroundImage: `url(${appointment.appimg})`, 
+                  
+                }}
+              ></div>
+              <div className="slider-text" >
+                <h3>
+                {appointment.country}
+                </h3>
+                
+                <Link to={`/appointmentInfo/${appointment.id}`} className='no-decoration' style={{color: 'white'}}>See Details <i class="fa-solid fa-arrow-right"></i></Link>
               </div>
+            </div>
             ))
           )}
         </div>
@@ -93,4 +85,4 @@ const AppointmentsComp = () => {
   );
 };
 
-export default AppointmentsComp;
+export default AvailablePackages;

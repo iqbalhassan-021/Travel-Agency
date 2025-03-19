@@ -266,7 +266,7 @@ color: black;
   height: 90%;
   width: 95%;
   border-radius:8px;
-  min-height: 600px;
+
 }
 
 .text-section img{
@@ -677,16 +677,131 @@ color: black;
   grid-template-columns: repeat(3,1fr);
   gap: 10px;
 }
-@media only screen and (max-width: 1100px) {
-  .tickrt-info{
-      display: grid;
-      grid-template-columns: repeat(3,1fr);
-      gap: 10px;
-  }
-  .ticket-tab{
-      width: 100%;
-  }
+.slider {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
 }
+
+.slider-card {
+  height: auto;
+  background-color: maroon;
+  margin: 0 10px; /* Adds spacing between slides */
+  color: white;
+  width: 318.5px !important;
+}
+
+.slider-text {
+  min-height: 50px;
+  width: 100%;
+  display: flex;
+  padding: 10px;
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: left;
+  text-align: left;
+}
+
+.slider-img {
+  width: 100%;
+  height: 340px; /* Adjust as needed */
+  background-color: white;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain; /* Shows full image */
+}
+.visa-info{
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+  width: 100%;
+}
+.visa-details{
+  padding: 20px;
+  width: 40%;
+}
+.visa-image{
+  width: 60%;
+
+}
+.visa-image img{
+  width: 100%;
+}
+.visa-4x > .slider-card {
+  width: 100% !important;
+}
+.tour-slider{
+  width: 100%;
+  height: auto;
+  min-height: 500px;
+  background-color: black;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain; /* Shows full image */
+}
+.tour-slide{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  align-items: center;
+  padding: 20px;
+  min-height: 500px;
+  width: 100% !important;
+}
+.tour-slide-content{
+  height: auto;
+  min-width: 350px;
+  background-color: white;
+  min-height: 500px;
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+
+
+.tour-slider-container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+.tour-slider {
+  position: relative;
+  min-height: 600px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: auto;
+}
+
+
+
+
+/* Slick slider custom arrows */
+.slick-prev, .slick-next {
+  z-index: 1;
+}
+
+.slick-prev {
+  left: 25px;
+}
+
+.slick-next {
+  right: 25px;
+}
+
+.slick-dots {
+  bottom: 20px;
+}
+
 @media only screen and (max-width: 1085px){
   .grid-4x{
     display: grid;
@@ -696,6 +811,11 @@ color: black;
   .visa-3x{
     display: grid;
     grid-template-columns: repeat(2,1fr);
+    gap: 10px;
+  }
+  .visa-4x{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
     gap: 10px;
   }
   } 
@@ -744,7 +864,19 @@ color: black;
 }
 
 @media only screen and (max-width: 720px) {
-
+.visa-info{
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  width: 100%;
+}
+.visa-details{
+  padding: 20px;
+  width: 100%;
+}
+.visa-image{
+  width: 100%;
+}
   .grid-2x{
       grid-template-columns: repeat(1,1fr);
   }
@@ -806,8 +938,18 @@ color: black;
       display: block;
   }
 
-}
 
+}
+@media only screen and (max-width: 675px){
+  .slider-card{
+    width: 100% !important;
+    height: auto !important;
+  }
+  .slider-img{
+    width: 100% !important;
+    height: 500px !important;
+  }
+}
 @media only screen and (max-width: 590px) {
   .grid-4x{
       grid-template-columns: repeat(1,1fr);

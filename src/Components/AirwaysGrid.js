@@ -6,7 +6,12 @@ const AirwaysGrid = () => {
         { src: "assets/images/Airsial-logo-1.png", alt: "Airsial Logo" },
         { src: "assets/images/Qatar-Airways-Logo.webp", alt: "Qatar Airways Logo" },
         { src: "assets/images/airarabia.png", alt: "Air Arabia Logo" },
+        { src: "assets/images/pia.png", alt: "PIA Logo" },
+        { src: "assets/images/emirates.png", alt: "emirates Logo" },
+        { src: "assets/images/ithad.png", alt: "ithad Logo" },
+        { src: "assets/images/salam.jpg", alt: "salam Logo" },
     ];
+
 
     return (
         <div className="container">

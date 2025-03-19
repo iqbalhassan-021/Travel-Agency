@@ -10,7 +10,7 @@ const QuickSection = () => {
                             <h1>What are you waiting for?</h1>
                         </div>
                         <div className="quick-buttons">
-                            <a href="#" className="primary-button rounded no-decoration">
+                            <a href="/contact" className="primary-button rounded no-decoration">
                                 Book an Appointment
                             </a>
                         </div>
