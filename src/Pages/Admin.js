@@ -38,7 +38,7 @@ const AdminPanel = () => {
   
   const [socialsForm, setSocialsForm] = useState({
     facebook: '', instagram: '', twitter: '', whatsapp1: '', whatsapp2: '',
-    email: '', officeNumber: '', ceo: '', director: '', contactNumber: ''
+    email: '', officeNumber: '', ceo: '', director: '', contactNumber: '', tiktok: ''
   });
   
   const [heroForm, setHeroForm] = useState({
@@ -458,9 +458,9 @@ const AdminPanel = () => {
               />
               <input 
                 type="text" 
-                placeholder="Twitter Link" 
-                value={socialsForm.twitter} 
-                onChange={(e) => setSocialsForm({ ...socialsForm, twitter: e.target.value })} 
+                placeholder="Tiktok Link" 
+                value={socialsForm.tiktok} 
+                onChange={(e) => setSocialsForm({ ...socialsForm, tiktok: e.target.value })} 
                 required 
               />
               <input 

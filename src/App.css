@@ -801,7 +801,32 @@ color: black;
 .slick-dots {
   bottom: 20px;
 }
+.footer-copyright{
+  height: auto;
+  width: 100%;
+  padding: 20px;
 
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer-copyright p,.footer-copyright a,.footer-copyright i{
+  color: white;
+}
+.social-icon{
+  height: auto;
+  width: auto;
+
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.social-icon a{
+  margin-left: 10px;
+}
 @media only screen and (max-width: 1085px){
   .grid-4x{
     display: grid;

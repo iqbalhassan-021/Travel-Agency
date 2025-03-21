@@ -68,12 +68,12 @@ const BookAppointmentForm = () => {
               />
             </div>
             <div className="form-tab">
-              <label htmlFor="cnic">CNIC</label>
+              <label htmlFor="email">Email</label>
               <input 
-                type="text" 
-                id="cnic" 
-                name="cnic" 
-                placeholder="CNIC"
+                type="email" 
+                id="email" 
+                name="email" 
+                placeholder="email"
       
               />
             </div>

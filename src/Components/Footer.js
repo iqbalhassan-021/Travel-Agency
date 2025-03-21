@@ -67,6 +67,7 @@ const Footer = ({ marginTop }) => {
           ) : error ? (
             <p style={{ color: 'red' }}>{error}</p>
           ) : (
+            <>
             <div className="grid-4x" style={{ marginTop }}>
               <div className="footer-card">
                 <Link to="/" className="no-decoration">
@@ -86,22 +87,6 @@ const Footer = ({ marginTop }) => {
               <div className="footer-card">
                 <h3>Contact Links</h3>
                 <a 
-                  href={siteInfo.instagram} 
-                  className="no-decoration" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                >
-                  Instagram
-                </a>
-                <a 
-                  href={siteInfo.facebook} 
-                  className="no-decoration" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                >
-                  Facebook
-                </a>
-                <a 
                   href={`https://wa.me/${siteInfo.whatsapp1}`} 
                   className="no-decoration" 
                   target="_blank" 
@@ -117,14 +102,7 @@ const Footer = ({ marginTop }) => {
                 >
                   Director Whatsapp: {siteInfo.director}
                 </a>
-                <a 
-                  href={siteInfo.twitter} 
-                  className="no-decoration" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                >
-                  @{siteInfo.siteName}
-                </a>
+
                 <a 
                   href={`mailto:${siteInfo.email}`} 
                   className="no-decoration"
@@ -162,6 +140,23 @@ const Footer = ({ marginTop }) => {
                 <p>1st Floor, Asharf Centre, Punjab, opposite Side Vital College, Wazirabad, 52000</p>
               </div>
             </div>
+            <div className="footer-copyright">
+              <div>
+              <p>Copyright &copy; 2023 Excellentsartrv. All rights reserved.</p>
+              </div>
+              <div className='social-icon'>
+                <a href={siteInfo.instagram} target="_blank" rel="noopener noreferrer">
+                  <i className="fa-brands fa-instagram"></i>
+                </a>
+                <a href={siteInfo.facebook} target="_blank" rel="noopener noreferrer">
+                  <i className="fa-brands fa-facebook"></i>
+                </a>
+                <a href={siteInfo.tiktok} target="_blank" rel="noopener noreferrer">
+                  <i className="fa-brands fa-tiktok"></i>
+                </a>
+              </div>
+            </div>
+           </>
           )}
         </div>
       </div>

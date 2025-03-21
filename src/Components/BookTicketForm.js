@@ -90,15 +90,13 @@ const BookTicketForm = () => {
               />
             </div>
             <div className="form-tab">
-              <label htmlFor="cnic">CNIC</label>
+              <label htmlFor="email">Email</label>
               <input 
-                type="text" 
-                id="cnic" 
-                required 
-                name="cnic" 
-                placeholder="CNIC"
-                value={formData.cnic}
-                onChange={handleChange}
+                type="email" 
+                id="email" 
+                name="email" 
+                placeholder="email"
+      
               />
             </div>
             <div className="form-tab">
