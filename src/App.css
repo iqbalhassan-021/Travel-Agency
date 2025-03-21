@@ -1006,6 +1006,10 @@ color: black;
   .search-tab select{
       width: 100%;
   }
+  .footer-copyright{
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 
