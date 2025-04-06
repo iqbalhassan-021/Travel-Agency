@@ -83,6 +83,7 @@ const Footer = ({ marginTop }) => {
                 <Link to="/appointments" className="no-decoration">Appointments</Link>
                 <Link to="/tickets" className="no-decoration">Tickets</Link>
                 <Link to="/admin" className="no-decoration">Login</Link>
+                <Link to="/b2b" className="no-decoration">B2B</Link>
               </div>
               <div className="footer-card">
                 <h3>Contact Links</h3>

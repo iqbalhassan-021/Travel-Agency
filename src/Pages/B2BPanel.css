@@ -1,0 +1,70 @@
+.b2b-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .tab-navigation {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .tab-navigation button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .tab-navigation button.active {
+    background-color: #800000;
+    color: white;
+  }
+  
+  .tab-content {
+    padding: 20px;
+  }
+  
+  .ticket-list, .visa-list, .appointment-list, .tour-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
+  .ticket-item, .visa-item, .appointment-item, .tour-item {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #fff;
+  }
+  
+  .visa-image, .appointment-image, .tour-image {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+  }
+  
+  .loader {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .error {
+    color: red;
+    text-align: center;
+    padding: 20px;
+  }
+  
+
+  
+  p {
+    margin: 5px 0;
+  }

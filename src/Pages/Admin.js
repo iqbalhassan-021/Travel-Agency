@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { collection, addDoc, getDocs, deleteDoc, doc } from "firebase/firestore";
+import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { firestore } from '../firebase';
 import './AdminPanel.css';
 
@@ -12,24 +12,25 @@ const AdminPanel = () => {
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [b2bCustomers, setB2bCustomers] = useState([])
 
   // Form states
   const [ticketForm, setTicketForm] = useState({
     name: '', departureTime: '', departureCity: '', departureCode: '',
     arrivalTime: '', arrivalCity: '', arrivalCode: '', flight: '',
-    gate: '', boarding: '', seat: ''
+    gate: '', boarding: '', seat: '', ticketB2B: '',
   });
   
   const [visaForm, setVisaForm] = useState({
-    country: '', documents: '', price: '', processingTime: '', visaType: '', VisaImage: ''
+    country: '', documents: '', price: '', processingTime: '', visaType: '', VisaImage: '', visaB2B: '',
   });
   
   const [appointmentForm, setAppointmentForm] = useState({
-    type: '', country: '', price: '', date: '', consultant: '', appimg: ''
+    type: '', country: '', price: '', date: '', consultant: '', appimg: '', appB2B: '',
   });
   
   const [tourForm, setTourForm] = useState({
-    imageUrl: '', country: '', price: '', duration: '', date: '', requiredDocuments: ''
+    imageUrl: '', country: '', price: '', duration: '', date: '', requiredDocuments: '', tourB2B: '',
   }); // New form state for tours
   
   const [basicInfoForm, setBasicInfoForm] = useState({
@@ -53,19 +54,19 @@ const AdminPanel = () => {
   const ticketResetForm = {
     name: '', departureTime: '', departureCity: '', departureCode: '',
     arrivalTime: '', arrivalCity: '', arrivalCode: '', flight: '',
-    gate: '', boarding: '', seat: ''
+    gate: '', boarding: '', seat: '' , ticketB2B: '',
   };
   
   const visaResetForm = {
-    country: '', documents: '', price: '', processingTime: '', visaType: '', VisaImage: ''
+    country: '', documents: '', price: '', processingTime: '', visaType: '', VisaImage: '',visaB2B: '',
   };
   
   const appointmentResetForm = {
-    type: '', country: '', price: '', date: '', consultant: '', appimg: ''
+    type: '', country: '', price: '', date: '', consultant: '', appimg: '', appB2B: '',
   };
   
   const tourResetForm = {
-    imageUrl: '', country: '', price: '', duration: '', date: '', requiredDocuments: ''
+    imageUrl: '', country: '', price: '', duration: '', date: '', requiredDocuments: '', tourB2B: '',
   }; // New reset form for tours
   
   const notificationResetForm = {
@@ -177,6 +178,24 @@ const AdminPanel = () => {
       throw error;
     }
   };
+  const approveB2BCustomer = async (id) => {
+    setLoading(true);
+    try {
+      const customerRef = doc(firestore, "B2BUsers", id);
+      await updateDoc(customerRef, {
+        status: "approved",
+        approvedAt: new Date().toISOString()
+      });
+      setB2bCustomers(b2bCustomers.map(customer => 
+        customer.id === id ? { ...customer, status: "approved" } : customer
+      ));
+      setError(null);
+    } catch (error) {
+      setError('Failed to approve customer');
+      console.error("Error approving customer:", error);
+    }
+    setLoading(false);
+  };
 
   // Handler functions
   const handleAdd = async (e, collectionName, formData, setForm, resetForm) => {
@@ -266,7 +285,7 @@ const AdminPanel = () => {
 
   // Load initial data
   useEffect(() => {
-    const collections = ['tickets', 'visas', 'appointments', 'tours', 'notifications']; // Added 'tours'
+    const collections = ['tickets', 'visas', 'appointments', 'tours', 'notifications','B2BUsers']; // Added 'tours'
     collections.forEach(async (col) => {
       try {
         const querySnapshot = await getDocs(collection(firestore, col));
@@ -277,6 +296,7 @@ const AdminPanel = () => {
           case 'appointments': setAppointments(data); break;
           case 'tours': setTours(data); break; // New case for tours
           case 'notifications': setNotifications(data); break;
+          case 'B2BUsers': setB2bCustomers(data); break;
         }
       } catch (error) {
         setError(`Failed to load ${col}`);
@@ -289,7 +309,7 @@ const AdminPanel = () => {
       <div className="sidebar">
         <h2>Travel Admin</h2>
         <ul>
-          {['tickets', 'visas', 'appointments', 'tours', 'basicInfo', 'socials', 'hero', 'notifications'].map(section => (
+          {['tickets', 'visas', 'appointments', 'tours', 'basicInfo', 'socials', 'hero', 'notifications', 'b2bCustomers'].map(section => (
             <li 
               key={section} 
               className={activeSection === section ? 'active' : ''} 
@@ -323,6 +343,8 @@ const AdminPanel = () => {
               <input type="text" placeholder="Gate" value={ticketForm.gate} onChange={(e) => setTicketForm({ ...ticketForm, gate: e.target.value })} required />
               <input type="text" placeholder="Boarding Time" value={ticketForm.boarding} onChange={(e) => setTicketForm({ ...ticketForm, boarding: e.target.value })} required />
               <input type="text" placeholder="Seat" value={ticketForm.seat} onChange={(e) => setTicketForm({ ...ticketForm, seat: e.target.value })} required />
+              <input type="number" placeholder="B2B Price" value={ticketForm.ticketB2B} onChange={(e) => setTicketForm({ ...ticketForm, ticketB2B: e.target.value })} required />
+              
               <button type="submit" disabled={loading}>Add Ticket</button>
             </form>
             <div className="list">
@@ -346,6 +368,7 @@ const AdminPanel = () => {
               <input type="number" placeholder="Price" value={visaForm.price} onChange={(e) => setVisaForm({ ...visaForm, price: e.target.value })} required />
               <input type="text" placeholder="Processing Time" value={visaForm.processingTime} onChange={(e) => setVisaForm({ ...visaForm, processingTime: e.target.value })} required />
               <input type="text" placeholder="Visa Type" value={visaForm.visaType} onChange={(e) => setVisaForm({ ...visaForm, visaType: e.target.value })} required />
+              <input type="number" placeholder="B2B Price" value={ticketForm.visaB2B} onChange={(e) => setTicketForm({ ...ticketForm, visaB2B: e.target.value })} required />
               <button type="submit" disabled={loading}>Add Visa</button>
             </form>
             <div className="list">
@@ -374,6 +397,7 @@ const AdminPanel = () => {
               <input type="number" placeholder="Price" value={appointmentForm.price} onChange={(e) => setAppointmentForm({ ...appointmentForm, price: e.target.value })} required />
               <input type="date" value={appointmentForm.date} onChange={(e) => setAppointmentForm({ ...appointmentForm, date: e.target.value })} required />
               <input type="text" placeholder="Consultant Name" value={appointmentForm.consultant} onChange={(e) => setAppointmentForm({ ...appointmentForm, consultant: e.target.value })} required />
+              <input type="number" placeholder="B2B Price" value={ticketForm.appB2B} onChange={(e) => setTicketForm({ ...ticketForm, appB2B: e.target.value })} required />
               <button type="submit" disabled={loading}>Add Appointment</button>
             </form>
             <div className="list">
@@ -396,6 +420,7 @@ const AdminPanel = () => {
               <input type="number" placeholder="Price" value={tourForm.price} onChange={(e) => setTourForm({ ...tourForm, price: e.target.value })} required />
               <input type="text" placeholder="Duration (e.g., 5 days)" value={tourForm.duration} onChange={(e) => setTourForm({ ...tourForm, duration: e.target.value })} required />
               <input type="date" placeholder="Tour Date" value={tourForm.date} onChange={(e) => setTourForm({ ...tourForm, date: e.target.value })} required />
+              <input type="number" placeholder="B2B Price" value={ticketForm.tourB2B} onChange={(e) => setTicketForm({ ...ticketForm, tourB2B: e.target.value })} required />
               <textarea placeholder="Required Documents" value={tourForm.requiredDocuments} onChange={(e) => setTourForm({ ...tourForm, requiredDocuments: e.target.value })} required />
               <button type="submit" disabled={loading}>Add Tour</button>
             </form>
@@ -558,6 +583,58 @@ const AdminPanel = () => {
                 <div key={notif.id} className="list-item">
                   <span>{notif.message}</span>
                   <button className="delete-btn" onClick={() => handleDelete(notif.id, 'notifications', setNotifications, notifications)}>Delete</button>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+        {activeSection === 'b2bCustomers' && (
+          <section>
+            <h2>B2B Customers</h2>
+            
+            <h3>Approved Customers</h3>
+            <table className="customer-table">
+              <thead>
+                <tr>
+                  <th>Company Name</th>
+                  <th>Email</th>
+                  <th>Username</th>
+                  <th>Approved Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {b2bCustomers.filter(c => c.status === 'approved').map(customer => (
+                  <tr key={customer.id}>
+                    <td>{customer.companyName}</td>
+                    <td>{customer.email}</td>
+                    <td>{customer.b2bUsername}</td>
+                    <td>{customer.approvedAt || 'N/A'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            <h3>Pending Approvals</h3>
+            <div className="list">
+              {b2bCustomers.filter(c => c.status === 'pending').map(customer => (
+                <div key={customer.id} className="list-item">
+                  <span>
+                    {customer.companyName} - {customer.email} ({customer.b2bUsername})
+                  </span>
+                  <button 
+                    className="approve-btn"
+                    onClick={() => approveB2BCustomer(customer.id)}
+                    disabled={loading}
+                  >
+                    Approve
+                  </button>
+                  <button 
+                    className="delete-btn"
+                    onClick={() => handleDelete(customer.id, 'B2BUsers', setB2bCustomers, b2bCustomers)}
+                    disabled={loading}
+                  >
+                    Delete
+                  </button>
                 </div>
               ))}
             </div>
