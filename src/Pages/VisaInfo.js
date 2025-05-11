@@ -77,9 +77,16 @@ const VisaInfo = () => {
             <p><strong>Price:</strong> PKR{visa.price || 'N/A'}</p>
             <p><strong>Processing Time:</strong> {visa.processingTime || 'N/A'} days</p>
             <p><strong>Documents Required:</strong></p>
-            <p>
-            {visa.documents || 'N/A'}
-            </p>
+            <p><strong>Documents Required:</strong></p>
+            <ul>
+              {visa.documents
+                ? (typeof visa.documents === 'string'
+                    ? visa.documents.split(',').map((doc, index) => <li key={index}>{doc.trim()}</li>)
+                    : visa.documents.map((doc, index) => <li key={index}>{doc}</li>)
+                  )
+                : <li>N/A</li>
+              }
+            </ul>
             <br/>
             <Link to="/book-visa" className='primary-button no-decoration'>Apply Now</Link>
         </div>
