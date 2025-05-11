@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 const AirwaysGrid = () => {
     const airways = [
         { src: "assets/images/679_saudi_airlines.jpg", alt: "Saudi Airlines Logo" },
@@ -12,17 +13,17 @@ const AirwaysGrid = () => {
         { src: "assets/images/salam.jpg", alt: "salam Logo" },
     ];
 
+    // Duplicate the list to create infinite effect
+    const duplicatedAirways = [...airways, ...airways];
 
     return (
-        <div className="container">
-            <div className="body-cover">
-                <div className="airways grid-4x">
-                    {airways.map((airway, index) => (
-                        <div className="card center" key={index}>
-                            <img src={airway.src} className="air-image" alt={airway.alt} />
-                        </div>
-                    ))}
-                </div>
+        <div className="slider-wrapper">
+            <div className="slider-track">
+                {duplicatedAirways.map((airway, index) => (
+                    <div className="slider-cards" key={index}>
+                        <img src={airway.src} alt={airway.alt} />
+                    </div>
+                ))}
             </div>
         </div>
     );

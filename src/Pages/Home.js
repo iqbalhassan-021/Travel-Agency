@@ -14,28 +14,31 @@ import Footer from '../Components/Footer'
 import VisaSlider from '../Components/VisaSlider'
 import AppointmentsSlider from '../Components/AppoitmentsSlider'
 import Tours from '../Components/Tour'
+import StatsCounter from '../Components/StatsCounter'
+import TrendingVisas from '../Components/TrendingVisas'
+import VideoHeroSection from '../Components/VideoHeroSection'
+import ToursSection from '../Components/Tour'
+import HajjUmrahSection from '../Components/HajjUmrahSection'
 
 
 const Home = () => {
   return (
     <div class="container" style={{backgroundColor: 'white'}}>
-            <Notification backgroundColor='black' Color='white'/>
-      <div className="merge" style={{ backgroundImage: 'url(/Assets/images/background.jpg)' }}>
-        <NavBar/>
-        <Hero/>
-      </div>
-      <SearchTickets/>
+      <Notification backgroundColor='white' Color='black'/>
+      <NavBar backgroundColor='black'/>
+      <Hero/>
       <AirwaysGrid/>
       <Hajjintro/>
-      <VisaSlider/>
-      <AppointmentsSlider/>
-      <Tours/>
      {/* <AvailablePackages/> */}
-     <WhoAreWe/>
-     <WhyUs/>
+    <TrendingVisas/>
+    <VideoHeroSection/>
+     <WhyUs/>     
+     <ToursSection/>
+     <StatsCounter/>
+
      <ContactForm/>
-     <QuickSection/>
-     <Footer marginTop='20%'/>
+     
+     <Footer/>
      
     </div>
   )

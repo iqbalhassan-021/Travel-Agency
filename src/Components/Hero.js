@@ -1,65 +1,56 @@
 import React, { useState, useEffect } from 'react';
 import { collection, getDocs } from "firebase/firestore";
-import { firestore } from '../firebase'; // Adjust the import path based on your Firebase config file location
+import { firestore } from '../firebase'; // adjust path as needed
+import './hero.css'; // We'll write custom CSS here
 
 const Hero = () => {
-  // State to manage hero content
-  const [heading, setHeading] = useState("HAJJ UMRAH"); // Default fallback for heading
-  const [text, setText] = useState("Hajj and Umrah packages are available at low and affordable prices"); // Default fallback for text
+  const [heading, setHeading] = useState("Heading");
+  const [text, setText] = useState("Subheading");
+  const [heroImage, setHeroImage] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // Fetch hero data from Firestore on mount
   useEffect(() => {
     const fetchHeroData = async () => {
       try {
         const querySnapshot = await getDocs(collection(firestore, "hero"));
         if (!querySnapshot.empty) {
           const siteData = querySnapshot.docs[0].data();
-          setHeading(siteData.heading || "HAJJ UMRAH"); // Use fetched heading or fallback
-          setText(siteData.text || "Hajj and Umrah packages are available at low and affordable prices"); // Use fetched text or fallback
+          setHeading(siteData.heading || heading);
+          setText(siteData.text || text);
+          setHeroImage(siteData.backgroundImg || heroImage);
         }
-        setLoading(false);
       } catch (err) {
-        console.error("Error fetching hero data: ", err);
-        setError('Failed to load hero content.');
+        console.error("Hero fetch error:", err);
+        setError("Failed to load hero content.");
+      } finally {
         setLoading(false);
       }
     };
+
     fetchHeroData();
   }, []);
 
-  const headingWords = heading.split(' ');
-  const fontClass = headingWords.length > 2 ? 'smallerFontSize' : 'largerFontSize';
-
   return (
-    <div className="container">
-      <div className="hero center">
-        <div className="hero-text center">
+    <section className="newhero-section" style={{ backgroundImage: `url(${heroImage})` }}>
+      <div className="overlay">
+      <div className="body-cover"> 
+        <div className="hero-content">
+
           {loading ? (
-            <p>Loading...</p>
+            <p className="loading">Loading...</p>
           ) : error ? (
-            <p style={{ color: 'red' }}>{error}</p>
+            <p className="error">{error}</p>
           ) : (
             <>
-              <h1 id="heading" className={fontClass}>
-                {heading}
-              </h1>
-              <p>
-                {text}
-              </p>
-              <br />
-              <br />
-              <a href="/visa" className="no-decoration primary-button rounded">
-                Get Started
-              </a>
+              <h1 className="hero-title">{heading}</h1>
+              <p className="hero-subtext">{text}</p>
             </>
           )}
         </div>
-        <br />
-        <br />
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

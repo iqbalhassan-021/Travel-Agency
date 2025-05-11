@@ -37,11 +37,17 @@ const Navbar = ({backgroundColor}) => {
 
           {/* Navigation Links */}
           <div className="tab buttons-holder" id="buttons_holder">
-            {["Home", "About", "Contact", "Tickets", "Appointments", "Visa"].map((item) => (
+            {["Home", "About", "Contact", "Tickets", "Appointments", "Visa", "B2B"].map((item) => (
               <Link key={item} to={`/${item.toLowerCase()}`} className="no-decoration nav-button">
                 <p>{item}</p>
               </Link>
             ))}
+          </div>
+          <div className="tab buttons-holder" id="buttons_holder">
+            <Link to="/auth" className="no-decoration nav-button ">
+            
+              <p>Login / Register</p>
+            </Link>
           </div>
         </div>
       </div>
