@@ -536,6 +536,7 @@ color: black;
   align-items: center;
   color: white;
   border-bottom: 1px solid white;
+  text-align: left !important;
 }
 
 .about-text{

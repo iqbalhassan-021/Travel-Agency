@@ -8,11 +8,12 @@ const AdminPanel = () => {
   const [tickets, setTickets] = useState([]);
   const [visas, setVisas] = useState([]);
   const [appointments, setAppointments] = useState([]);
-  const [tours, setTours] = useState([]); // New state for tours
+  const [tours, setTours] = useState([]);
+  const [visaTypes, setVisaTypes] = useState([]);
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [b2bCustomers, setB2bCustomers] = useState([])
+  const [b2bCustomers, setB2bCustomers] = useState([]);
 
   // Form states
   const [ticketForm, setTicketForm] = useState({
@@ -26,12 +27,14 @@ const AdminPanel = () => {
   });
   
   const [appointmentForm, setAppointmentForm] = useState({
-    type: '', country: '', price: '', date: '', consultant: '', appimg: '', appB2B: '',
+    type: '', country: '', price: '', date: '', consultant: '', appB2B: '',
   });
   
   const [tourForm, setTourForm] = useState({
     imageUrl: '', country: '', price: '', duration: '', date: '', requiredDocuments: '', tourB2B: '',
-  }); // New form state for tours
+  });
+  
+  const [visaTypeForm, setVisaTypeForm] = useState({ name: '' });
   
   const [basicInfoForm, setBasicInfoForm] = useState({
     siteName: '', logo: '', aboutText: ''
@@ -54,11 +57,11 @@ const AdminPanel = () => {
   const ticketResetForm = {
     name: '', departureTime: '', departureCity: '', departureCode: '',
     arrivalTime: '', arrivalCity: '', arrivalCode: '', flight: '',
-    gate: '', boarding: '', seat: '' , ticketB2B: '',
+    gate: '', boarding: '', seat: '', ticketB2B: '',
   };
   
   const visaResetForm = {
-    country: '', documents: '', price: '', processingTime: '', visaType: '', VisaImage: '',visaB2B: '',
+    country: '', documents: '', price: '', processingTime: '', visaType: '', visaB2B: '',
   };
   
   const appointmentResetForm = {
@@ -67,7 +70,9 @@ const AdminPanel = () => {
   
   const tourResetForm = {
     imageUrl: '', country: '', price: '', duration: '', date: '', requiredDocuments: '', tourB2B: '',
-  }; // New reset form for tours
+  };
+  
+  const visaTypeResetForm = { name: '' };
   
   const notificationResetForm = {
     message: ''
@@ -121,10 +126,23 @@ const AdminPanel = () => {
       });
       return docRef.id;
     } catch (error) {
-      console.error("Error saving tour:", error);
+      console.error("Error saving tour Autobiography:", error);
       throw error;
     }
-  }; // New save function for tours
+  };
+
+  const saveVisaType = async (visaTypeData) => {
+    try {
+      const docRef = await addDoc(collection(firestore, "visaTypes"), {
+        ...visaTypeData,
+        createdAt: new Date().toISOString()
+      });
+      return docRef.id;
+    } catch (error) {
+      console.error("Error saving visa type:", error);
+      throw error;
+    }
+  };
 
   const saveBasicInfo = async (basicInfoData) => {
     try {
@@ -178,6 +196,7 @@ const AdminPanel = () => {
       throw error;
     }
   };
+
   const approveB2BCustomer = async (id) => {
     setLoading(true);
     try {
@@ -219,7 +238,11 @@ const AdminPanel = () => {
         case 'tours':
           docId = await saveTour(formData);
           setTours([...tours, { ...formData, id: docId }]);
-          break; // New case for tours
+          break;
+        case 'visaTypes':
+          docId = await saveVisaType(formData);
+          setVisaTypes([...visaTypes, { ...formData, id: docId }]);
+          break;
         case 'notifications':
           docId = await saveNotification(formData);
           setNotifications([...notifications, { ...formData, id: docId }]);
@@ -285,7 +308,7 @@ const AdminPanel = () => {
 
   // Load initial data
   useEffect(() => {
-    const collections = ['tickets', 'visas', 'appointments', 'tours', 'notifications','B2BUsers']; // Added 'tours'
+    const collections = ['tickets', 'visas', 'appointments', 'tours', 'visaTypes', 'notifications', 'B2BUsers'];
     collections.forEach(async (col) => {
       try {
         const querySnapshot = await getDocs(collection(firestore, col));
@@ -294,7 +317,8 @@ const AdminPanel = () => {
           case 'tickets': setTickets(data); break;
           case 'visas': setVisas(data); break;
           case 'appointments': setAppointments(data); break;
-          case 'tours': setTours(data); break; // New case for tours
+          case 'tours': setTours(data); break;
+          case 'visaTypes': setVisaTypes(data); break;
           case 'notifications': setNotifications(data); break;
           case 'B2BUsers': setB2bCustomers(data); break;
         }
@@ -309,7 +333,7 @@ const AdminPanel = () => {
       <div className="sidebar">
         <h2>Travel Admin</h2>
         <ul>
-          {['tickets', 'visas', 'appointments', 'tours', 'basicInfo', 'socials', 'hero', 'notifications', 'b2bCustomers'].map(section => (
+          {['tickets', 'visas', 'appointments', 'tours', 'visaTypes', 'basicInfo', 'socials', 'hero', 'notifications', 'b2bCustomers'].map(section => (
             <li 
               key={section} 
               className={activeSection === section ? 'active' : ''} 
@@ -318,6 +342,7 @@ const AdminPanel = () => {
               {section === 'basicInfo' ? 'Basic Info' : 
                section === 'socials' ? 'Social Media' : 
                section === 'hero' ? 'Hero Section' : 
+               section === 'visaTypes' ? 'Visa Types' :
                section.charAt(0).toUpperCase() + section.slice(1)}
             </li>
           ))}
@@ -344,7 +369,6 @@ const AdminPanel = () => {
               <input type="text" placeholder="Boarding Time" value={ticketForm.boarding} onChange={(e) => setTicketForm({ ...ticketForm, boarding: e.target.value })} required />
               <input type="text" placeholder="Seat" value={ticketForm.seat} onChange={(e) => setTicketForm({ ...ticketForm, seat: e.target.value })} required />
               <input type="number" placeholder="B2B Price" value={ticketForm.ticketB2B} onChange={(e) => setTicketForm({ ...ticketForm, ticketB2B: e.target.value })} required />
-              
               <button type="submit" disabled={loading}>Add Ticket</button>
             </form>
             <div className="list">
@@ -362,13 +386,23 @@ const AdminPanel = () => {
           <section>
             <h2>Manage Visas</h2>
             <form onSubmit={(e) => handleAdd(e, 'visas', visaForm, setVisaForm, visaResetForm)}>
-              <input type="text" placeholder="Image URL" value={visaForm.VisaImage} onChange={(e) => setVisaForm({ ...visaForm, VisaImage: e.target.value })} required />
               <input type="text" placeholder="Country" value={visaForm.country} onChange={(e) => setVisaForm({ ...visaForm, country: e.target.value })} required />
               <textarea placeholder="Required Documents" value={visaForm.documents} onChange={(e) => setVisaForm({ ...visaForm, documents: e.target.value })} required />
               <input type="number" placeholder="Price" value={visaForm.price} onChange={(e) => setVisaForm({ ...visaForm, price: e.target.value })} required />
               <input type="text" placeholder="Processing Time" value={visaForm.processingTime} onChange={(e) => setVisaForm({ ...visaForm, processingTime: e.target.value })} required />
-              <input type="text" placeholder="Visa Type" value={visaForm.visaType} onChange={(e) => setVisaForm({ ...visaForm, visaType: e.target.value })} required />
-              <input type="number" placeholder="B2B Price" value={ticketForm.visaB2B} onChange={(e) => setTicketForm({ ...ticketForm, visaB2B: e.target.value })} required />
+              <select 
+                value={visaForm.visaType} 
+                onChange={(e) => setVisaForm({ ...visaForm, visaType: e.target.value })} 
+                required
+              >
+                <option value="">Select Visa Type</option>
+                {visaTypes.map(visaType => (
+                  <option key={visaType.id} value={visaType.name}>
+                    {visaType.name}
+                  </option>
+                ))}
+              </select>
+              <input type="number" placeholder="B2B Price" value={visaForm.visaB2B} onChange={(e) => setVisaForm({ ...visaForm, visaB2B: e.target.value })} required />
               <button type="submit" disabled={loading}>Add Visa</button>
             </form>
             <div className="list">
@@ -397,7 +431,7 @@ const AdminPanel = () => {
               <input type="number" placeholder="Price" value={appointmentForm.price} onChange={(e) => setAppointmentForm({ ...appointmentForm, price: e.target.value })} required />
               <input type="date" value={appointmentForm.date} onChange={(e) => setAppointmentForm({ ...appointmentForm, date: e.target.value })} required />
               <input type="text" placeholder="Consultant Name" value={appointmentForm.consultant} onChange={(e) => setAppointmentForm({ ...appointmentForm, consultant: e.target.value })} required />
-              <input type="number" placeholder="B2B Price" value={ticketForm.appB2B} onChange={(e) => setTicketForm({ ...ticketForm, appB2B: e.target.value })} required />
+              <input type="number" placeholder="B2B Price" value={appointmentForm.appB2B} onChange={(e) => setAppointmentForm({ ...appointmentForm, appB2B: e.target.value })} required />
               <button type="submit" disabled={loading}>Add Appointment</button>
             </form>
             <div className="list">
@@ -420,7 +454,7 @@ const AdminPanel = () => {
               <input type="number" placeholder="Price" value={tourForm.price} onChange={(e) => setTourForm({ ...tourForm, price: e.target.value })} required />
               <input type="text" placeholder="Duration (e.g., 5 days)" value={tourForm.duration} onChange={(e) => setTourForm({ ...tourForm, duration: e.target.value })} required />
               <input type="date" placeholder="Tour Date" value={tourForm.date} onChange={(e) => setTourForm({ ...tourForm, date: e.target.value })} required />
-              <input type="number" placeholder="B2B Price" value={ticketForm.tourB2B} onChange={(e) => setTicketForm({ ...ticketForm, tourB2B: e.target.value })} required />
+              <input type="number" placeholder="B2B Price" value={tourForm.tourB2B} onChange={(e) => setTourForm({ ...tourForm, tourB2B: e.target.value })} required />
               <textarea placeholder="Required Documents" value={tourForm.requiredDocuments} onChange={(e) => setTourForm({ ...tourForm, requiredDocuments: e.target.value })} required />
               <button type="submit" disabled={loading}>Add Tour</button>
             </form>
@@ -429,6 +463,35 @@ const AdminPanel = () => {
                 <div key={tour.id} className="list-item">
                   <span>{tour.country} - ${tour.price} ({tour.duration})</span>
                   <button className="delete-btn" onClick={() => handleDelete(tour.id, 'tours', setTours, tours)}>Delete</button>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {activeSection === 'visaTypes' && (
+          <section>
+            <h2>Manage Visa Types</h2>
+            <form onSubmit={(e) => handleAdd(e, 'visaTypes', visaTypeForm, setVisaTypeForm, visaTypeResetForm)}>
+              <input 
+                type="text" 
+                placeholder="Visa Type Name" 
+                value={visaTypeForm.name} 
+                onChange={(e) => setVisaTypeForm({ ...visaTypeForm, name: e.target.value })} 
+                required 
+              />
+              <button type="submit" disabled={loading}>Add Visa Type</button>
+            </form>
+            <div className="list">
+              {visaTypes.map(visaType => (
+                <div key={visaType.id} className="list-item">
+                  <span>{visaType.name}</span>
+                  <button 
+                    className="delete-btn" 
+                    onClick={() => handleDelete(visaType.id, 'visaTypes', setVisaTypes, visaTypes)}
+                  >
+                    Delete
+                  </button>
                 </div>
               ))}
             </div>
@@ -588,10 +651,10 @@ const AdminPanel = () => {
             </div>
           </section>
         )}
+
         {activeSection === 'b2bCustomers' && (
           <section>
             <h2>B2B Customers</h2>
-            
             <h3>Approved Customers</h3>
             <table className="customer-table">
               <thead>
