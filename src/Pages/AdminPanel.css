@@ -15,7 +15,7 @@ body {
 
 .sidebar {
     width: 250px;
-    background: maroon;
+    background: rgb(0, 51, 128);
     color: white;
     padding: 20px;
     display: flex;
@@ -45,7 +45,8 @@ body {
 
 .sidebar ul li:hover,
 .sidebar ul li.active {
-    background: #800000;
+    background: white;
+    color: black;
 }
 
 .main-content {
@@ -62,7 +63,7 @@ section {
 }
 
 h2 {
-    color: maroon;
+    color: white;
     margin-bottom: 15px;
 }
 
@@ -88,7 +89,7 @@ form textarea {
 }
 
 form button {
-    background: maroon;
+    background: #333;
     color: white;
     border: none;
     padding: 12px;
@@ -99,7 +100,7 @@ form button {
 }
 
 form button:hover {
-    background: #800000;
+    background: rgb(0, 51, 128);
 }
 
 form button:disabled {
@@ -124,13 +125,15 @@ form button:disabled {
 }
 
 .delete-btn {
-    background: #e74c3c;
+    background: rgb(0, 51, 128);
     padding: 8px 12px;
     font-size: 14px;
+    color: white;
+    cursor: pointer;
 }
 
 .delete-btn:hover {
-    background: #c0392b;
+    background: rgb(0, 51, 128);
 }
 
 .loader {
