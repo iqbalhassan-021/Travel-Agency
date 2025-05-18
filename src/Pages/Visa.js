@@ -6,6 +6,7 @@ import Navbar from '../Components/NavBar';
 import TitleBar from '../Components/TitleBar';
 import Footer from '../Components/Footer';
 import TrendingVisas from '../Components/TrendingVisas';
+import { Link } from 'react-router-dom';
 
 const VisaPage = () => {
   const [visas, setVisas] = useState([]);
@@ -127,7 +128,10 @@ const VisaPage = () => {
                         <p><strong>Visa Type:</strong> {visa.visaType}</p>
                         <p><strong>Required Documents:</strong> {visa.documents}</p>
                         <p><strong>Processing Time:</strong> {visa.processingTime} Days</p>
-                        <button className="apply-btn">Apply Now</button>
+                        
+                              <Link to='/book-visa' className='no-decoration'>
+                                 <button className="apply-btn">Apply Now</button>     
+                              </Link>
                       </div>
                     )}
                   </div>

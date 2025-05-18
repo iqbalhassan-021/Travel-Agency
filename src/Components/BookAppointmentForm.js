@@ -84,7 +84,7 @@ const BookAppointmentForm = () => {
                 id="for" 
       
               >
-                <option value="myselfe">My Selfe</option>
+                <option value="myselfe">My Self</option>
                 <option value="Other">Other</option>
               </select>
             </div>

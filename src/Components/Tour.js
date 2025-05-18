@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 
 const TourFeatureCard = () => {
@@ -17,7 +18,9 @@ const TourFeatureCard = () => {
         Let us handle your travel planning while you focus on making unforgettable memories.
         </p>
     
-        <button className="learn-more-btn">View Plans</button>
+              <Link to='/visa' className='no-decoration'>
+                <button className="apply-btn">Apply Now</button>     
+              </Link>
       </div>
     </div>
   );

@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { collection, getDocs } from "firebase/firestore";
 import { firestore } from '../firebase';
 import './B2BPanel.css'; // You'll need to create this CSS file
+import Notification from '../Components/Notification';
+import Navbar from '../Components/NavBar';
+import Footer from '../Components/Footer';
 
 const B2BPanel = () => {
   const [activeTab, setActiveTab] = useState('tickets');
@@ -36,8 +39,11 @@ const B2BPanel = () => {
   }, []);
 
   return (
+       <div className="container" style={{ backgroundColor: 'white' }}>
+      <Notification backgroundColor="white" Color="black" /> 
+      <Navbar backgroundColor="black" />
     <div className="b2b-container">
-        <img src="/assets/images/stars_logo_black.png" alt="Logo" className="logo" /> {/* Replace with your logo URL */}
+     
       <h1>B2B Portal</h1>
       
       {/* Tab Navigation */}
@@ -88,6 +94,7 @@ const B2BPanel = () => {
                   <p>Boarding: {ticket.boarding}</p>
                   <p>Seat: {ticket.seat}</p>
                   <p>B2B Price: PKR{ticket.ticketB2B}</p>
+                  
                 </div>
               ))
             )}
@@ -152,6 +159,8 @@ const B2BPanel = () => {
           </div>
         )}
       </div>
+    </div>
+    <Footer/>
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { collection, getDocs, query, limit } from "firebase/firestore";
 import { firestore } from '../firebase';
 
@@ -79,7 +80,10 @@ const TrendingVisas = () => {
                     <p><strong>Visa Type:</strong> {visa.visaType}</p>
                     <p><strong>Required Documents:</strong> {visa.documents}</p>
                     <p><strong>Processing Time:</strong> {visa.processingTime} Days</p>
-                    <button className="apply-btn">Apply Now</button>
+                          <Link to='/book-visa' className='no-decoration'>
+                               <button className="apply-btn">Apply Now</button>     
+                          </Link>
+  
                   </div>
                 )}
               </div>
@@ -88,7 +92,13 @@ const TrendingVisas = () => {
         ))}
       </div>
       <br />
-      <h2 className="section-title">View All Visas</h2>
+      <h2 className="section-title">
+      <Link to='/visa' className='no-decoration'>
+            View All Visas
+          
+      </Link>
+
+        </h2>
 
       <style jsx>{`
         .visa-section {

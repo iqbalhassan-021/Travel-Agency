@@ -3,7 +3,7 @@ import React from 'react';
 const stats = [
   {
     icon: 'fas fa-globe-asia',
-    number: 25,
+    number: '10+',
     label: 'Countries Served',
   },
   {
@@ -14,12 +14,12 @@ const stats = [
   },
   {
     icon: 'fas fa-check-circle',
-    number: 1200,
+    number: '90+',
     label: 'Approved Visas',
   },
   {
     icon: 'fas fa-smile',
-    number: 3000,
+    number: '90+',
     label: 'Happy Clients',
   },
 ];

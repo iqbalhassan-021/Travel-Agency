@@ -126,7 +126,7 @@ const BookVisaForm = () => {
                   <option value="">-- Select a Visa --</option>
                   {availableVisas.map(visa => (
                     <option key={visa.id} value={visa.id}>
-                      {visa.country} - {visa.visaType} (${visa.price})
+                      {visa.country} - {visa.visaType} (PKR{visa.price})
                     </option>
                   ))}
                 </select>
