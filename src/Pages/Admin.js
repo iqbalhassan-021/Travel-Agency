@@ -8,7 +8,7 @@ const AdminPanel = () => {
   const [tickets, setTickets] = useState([]);
   const [visas, setVisas] = useState([]);
   const [appointments, setAppointments] = useState([]);
-  const [tours, setTours] = useState([]);
+
   const [visaTypes, setVisaTypes] = useState([]);
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -23,16 +23,13 @@ const AdminPanel = () => {
   });
   
   const [visaForm, setVisaForm] = useState({
-    country: '', documents: '', price: '', processingTime: '', visaType: '', VisaImage: '', visaB2B: '',
+    duration: '',country: '', documents: '', price: '', processingTime: '', visaType: '', VisaImage: '', visaB2B: '',
   });
   
   const [appointmentForm, setAppointmentForm] = useState({
     type: '', country: '', price: '', date: '', consultant: '', appB2B: '',
   });
-  
-  const [tourForm, setTourForm] = useState({
-    imageUrl: '', country: '', price: '', duration: '', date: '', requiredDocuments: '', tourB2B: '',
-  });
+
   
   const [visaTypeForm, setVisaTypeForm] = useState({ name: '' });
   
@@ -61,7 +58,7 @@ const AdminPanel = () => {
   };
   
   const visaResetForm = {
-    country: '', documents: '', price: '', processingTime: '', visaType: '', visaB2B: '',
+    duration: '',country: '', documents: '', price: '', processingTime: '', visaType: '', visaB2B: '',
   };
   
   const appointmentResetForm = {
@@ -235,10 +232,6 @@ const AdminPanel = () => {
           docId = await saveAppointment(formData);
           setAppointments([...appointments, { ...formData, id: docId }]);
           break;
-        case 'tours':
-          docId = await saveTour(formData);
-          setTours([...tours, { ...formData, id: docId }]);
-          break;
         case 'visaTypes':
           docId = await saveVisaType(formData);
           setVisaTypes([...visaTypes, { ...formData, id: docId }]);
@@ -308,7 +301,7 @@ const AdminPanel = () => {
 
   // Load initial data
   useEffect(() => {
-    const collections = ['tickets', 'visas', 'appointments', 'tours', 'visaTypes', 'notifications', 'B2BUsers'];
+    const collections = ['tickets', 'visas', 'appointments',  'visaTypes', 'notifications', 'B2BUsers'];
     collections.forEach(async (col) => {
       try {
         const querySnapshot = await getDocs(collection(firestore, col));
@@ -317,7 +310,6 @@ const AdminPanel = () => {
           case 'tickets': setTickets(data); break;
           case 'visas': setVisas(data); break;
           case 'appointments': setAppointments(data); break;
-          case 'tours': setTours(data); break;
           case 'visaTypes': setVisaTypes(data); break;
           case 'notifications': setNotifications(data); break;
           case 'B2BUsers': setB2bCustomers(data); break;
@@ -333,7 +325,7 @@ const AdminPanel = () => {
       <div className="sidebar">
         <h2>Travel Admin</h2>
         <ul>
-          {['tickets', 'visas', 'appointments', 'tours', 'visaTypes', 'basicInfo', 'socials', 'hero', 'notifications', 'b2bCustomers'].map(section => (
+          {['tickets', 'visas', 'appointments',  'visaTypes', 'basicInfo', 'socials', 'hero', 'notifications', 'b2bCustomers'].map(section => (
             <li 
               key={section} 
               className={activeSection === section ? 'active' : ''} 
@@ -402,6 +394,7 @@ const AdminPanel = () => {
                   </option>
                 ))}
               </select>
+              <input type='text'  placeholder="Duration" value={visaForm.duration} onChange={(e) => setVisaForm({ ...visaForm, visaB2B: e.target.value })} required />
               <input type="number" placeholder="B2B Price" value={visaForm.visaB2B} onChange={(e) => setVisaForm({ ...visaForm, visaB2B: e.target.value })} required />
               <button type="submit" disabled={loading}>Add Visa</button>
             </form>
@@ -421,11 +414,17 @@ const AdminPanel = () => {
             <h2>Manage Appointments</h2>
             <form onSubmit={(e) => handleAdd(e, 'appointments', appointmentForm, setAppointmentForm, appointmentResetForm)}>
               <input type="text" placeholder="Image URL" value={appointmentForm.appimg} onChange={(e) => setAppointmentForm({ ...appointmentForm, appimg: e.target.value })} required />
-              <select value={appointmentForm.type} onChange={(e) => setAppointmentForm({ ...appointmentForm, type: e.target.value })} required>
-                <option value="">Select Type</option>
-                <option value="Work Visa">Work Visa</option>
-                <option value="Study Visa">Study Visa</option>
-                <option value="Tourist Visa">Tourist Visa</option>
+                <select 
+                value={visaForm.visaType} 
+                onChange={(e) => setVisaForm({ ...visaForm, visaType: e.target.value })} 
+                required
+              >
+                <option value="">Select Visa Type</option>
+                {visaTypes.map(visaType => (
+                  <option key={visaType.id} value={visaType.name}>
+                    {visaType.name}
+                  </option>
+                ))}
               </select>
               <input type="text" placeholder="Country" value={appointmentForm.country} onChange={(e) => setAppointmentForm({ ...appointmentForm, country: e.target.value })} required />
               <input type="number" placeholder="Price" value={appointmentForm.price} onChange={(e) => setAppointmentForm({ ...appointmentForm, price: e.target.value })} required />
@@ -445,29 +444,7 @@ const AdminPanel = () => {
           </section>
         )}
 
-        {activeSection === 'tours' && (
-          <section>
-            <h2>Manage Tours</h2>
-            <form onSubmit={(e) => handleAdd(e, 'tours', tourForm, setTourForm, tourResetForm)}>
-              <input type="text" placeholder="Image URL" value={tourForm.imageUrl} onChange={(e) => setTourForm({ ...tourForm, imageUrl: e.target.value })} required />
-              <input type="text" placeholder="Country" value={tourForm.country} onChange={(e) => setTourForm({ ...tourForm, country: e.target.value })} required />
-              <input type="number" placeholder="Price" value={tourForm.price} onChange={(e) => setTourForm({ ...tourForm, price: e.target.value })} required />
-              <input type="text" placeholder="Duration (e.g., 5 days)" value={tourForm.duration} onChange={(e) => setTourForm({ ...tourForm, duration: e.target.value })} required />
-              <input type="date" placeholder="Tour Date" value={tourForm.date} onChange={(e) => setTourForm({ ...tourForm, date: e.target.value })} required />
-              <input type="number" placeholder="B2B Price" value={tourForm.tourB2B} onChange={(e) => setTourForm({ ...tourForm, tourB2B: e.target.value })} required />
-              <textarea placeholder="Required Documents" value={tourForm.requiredDocuments} onChange={(e) => setTourForm({ ...tourForm, requiredDocuments: e.target.value })} required />
-              <button type="submit" disabled={loading}>Add Tour</button>
-            </form>
-            <div className="list">
-              {tours.map(tour => (
-                <div key={tour.id} className="list-item">
-                  <span>{tour.country} - ${tour.price} ({tour.duration})</span>
-                  <button className="delete-btn" onClick={() => handleDelete(tour.id, 'tours', setTours, tours)}>Delete</button>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
+
 
         {activeSection === 'visaTypes' && (
           <section>
