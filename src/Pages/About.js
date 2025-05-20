@@ -9,8 +9,8 @@ import AboutComp from '../Components/AboutComp'
 const About = () => {
   return (
     <div class="container" style={{backgroundColor: 'white'}}>
-        <Notification backgroundColor='white' Color='black'/>
-        <Navbar backgroundColor='black'/>
+
+        <Navbar />
         <div class="container">
 
             <div class="about-section">

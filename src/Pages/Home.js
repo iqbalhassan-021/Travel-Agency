@@ -24,8 +24,8 @@ import HajjUmrahSection from '../Components/HajjUmrahSection'
 const Home = () => {
   return (
     <div class="container" style={{backgroundColor: 'white'}}>
-      <Notification backgroundColor='white' Color='black'/>
-      <NavBar backgroundColor='black'/>
+
+      <NavBar />
       <Hero/>
       <AirwaysGrid/>
       <Hajjintro/>

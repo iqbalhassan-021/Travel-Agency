@@ -24,7 +24,7 @@ const Navbar = ({backgroundColor}) => {
           <div className="tab logo-holder">
             <Link to="/" className="no-decoration">
               <img
-                src="assets/images/stars_logo_white.png"
+                src="assets/images/stars_logo_black.png"
                 alt="logo"
                 className="logo"
                 id="logo"

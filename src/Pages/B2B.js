@@ -122,7 +122,7 @@ const B2BPanel = () => {
 
   return (
     <div className="container" style={{ backgroundColor: 'white' }}>
-      <Notification backgroundColor="white" Color="black" />
+
       <Navbar backgroundColor="black" />
     <div className='body-cover'>
       <div className="b2b-panel">

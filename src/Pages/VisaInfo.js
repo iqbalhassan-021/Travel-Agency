@@ -54,8 +54,8 @@ const VisaInfo = () => {
   // Render visa details
   return (
     <>
-        <Notification backgroundColor='white' Color='black'/>
-        <Navbar backgroundColor='black'/>
+       
+        <Navbar />
     <div className="container " style={{backgroundColor: 'white'}}>
     <div className="body-cover">
        

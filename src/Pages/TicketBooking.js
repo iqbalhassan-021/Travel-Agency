@@ -11,8 +11,8 @@ import BookTicketForm from '../Components/BookTicketForm'
 const TicketsPage = () => {
   return (
     <div class="container" style={{backgroundColor: 'white'}}>
-        <Notification backgroundColor='white' Color='black'/>
-        <Navbar backgroundColor='black'/>
+
+        <Navbar />
         <div class="container">
 
             <div class="about-section">

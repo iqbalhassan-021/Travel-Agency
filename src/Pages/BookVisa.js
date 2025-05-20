@@ -9,7 +9,7 @@ import BookVisaForm from '../Components/BookVisaForm'
 const BookVisaPage = () => {
   return (
     <div class="container" style={{backgroundColor: 'white'}}>
-        <Notification backgroundColor='white' Color='black'/>
+
         <Navbar backgroundColor='black'/>
         <div class="container">
 

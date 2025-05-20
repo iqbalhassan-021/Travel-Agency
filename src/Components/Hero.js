@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { collection, getDocs } from "firebase/firestore";
-import { firestore } from '../firebase'; // adjust path as needed
-import './hero.css'; // We'll write custom CSS here
+import { firestore } from '../firebase';
+import './hero.css';
 
 const Hero = () => {
-  const [heading, setHeading] = useState("Heading");
-  const [text, setText] = useState("Subheading");
-  const [heroImage, setHeroImage] = useState("");
+  const [slides, setSlides] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -15,10 +14,8 @@ const Hero = () => {
       try {
         const querySnapshot = await getDocs(collection(firestore, "hero"));
         if (!querySnapshot.empty) {
-          const siteData = querySnapshot.docs[0].data();
-          setHeading(siteData.heading || heading);
-          setText(siteData.text || text);
-          setHeroImage(siteData.backgroundImg || heroImage);
+          const data = querySnapshot.docs.map(doc => doc.data());
+          setSlides(data);
         }
       } catch (err) {
         console.error("Hero fetch error:", err);
@@ -31,23 +28,38 @@ const Hero = () => {
     fetchHeroData();
   }, []);
 
-  return (
-    <section className="newhero-section" style={{ backgroundImage: `url(${heroImage})` }}>
-      <div className="overlay">
-      <div className="body-cover"> 
-        <div className="hero-content">
+  // Auto-transition
+  useEffect(() => {
+    if (slides.length < 2) return;
 
-          {loading ? (
-            <p className="loading">Loading...</p>
-          ) : error ? (
-            <p className="error">{error}</p>
-          ) : (
-            <>
-              <h1 className="hero-title">{heading}</h1>
-              <p className="hero-subtext">{text}</p>
-            </>
-          )}
-        </div>
+    const interval = setInterval(() => {
+      setCurrentIndex(prevIndex => (prevIndex + 1) % slides.length);
+    }, 5000); // 5 seconds per slide
+
+    return () => clearInterval(interval);
+  }, [slides]);
+
+  const currentSlide = slides[currentIndex] || {};
+
+  return (
+    <section
+      className="newhero-section"
+      style={{ backgroundImage: `url(${currentSlide.backgroundImg || ''})` }}
+    >
+      <div className="overlay">
+        <div className="body-cover">
+          <div className="hero-content">
+            {loading ? (
+              <p className="loading">Loading...</p>
+            ) : error ? (
+              <p className="error">{error}</p>
+            ) : (
+              <>
+                <h1 className="hero-title">{currentSlide.heading}</h1>
+                <p className="hero-subtext">{currentSlide.text}</p>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </section>

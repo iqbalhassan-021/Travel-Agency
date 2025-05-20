@@ -53,7 +53,7 @@ const VisaInfo = () => {
   // Render appointment details
   return (
     <>
-      <Notification backgroundColor="white" Color="black" />
+    
       <Navbar backgroundColor="black" />
       <div className="container" style={{ backgroundColor: 'white' }}>
         <div className="body-cover">

@@ -81,8 +81,8 @@ const VisaPage = () => {
 
   return (
     <div className="container" style={{ backgroundColor: 'white' }}>
-      <Notification backgroundColor="white" Color="black" /> 
-      <Navbar backgroundColor="black" />
+    
+      <Navbar  />
       {loading && <div style={{ textAlign: 'center', padding: '2rem' }}>Loading...</div>}
       {error && <div style={{ textAlign: 'center', padding: '2rem', color: 'red' }}>{error}</div>}
       <div className="visa-type-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '20px', padding: '20px', maxWidth:'1200px', marginLeft:'auto', marginRight:'auto' }}>

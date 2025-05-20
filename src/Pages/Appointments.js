@@ -9,7 +9,7 @@ import AppointmentsComp from '../Components/AppointmentsComp'
 const BookAppointmetsPage = () => {
   return (
     <div class="container" style={{backgroundColor: 'white'}}>
-        <Notification backgroundColor='white' Color='black'/>
+
         <Navbar backgroundColor='black'/>
         <div class="container">
 

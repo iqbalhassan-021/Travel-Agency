@@ -65,7 +65,7 @@ html{
   background-color: transparent;
   position: sticky;
   top: 0px;
-  background-color: black;
+  background-color: white;
   z-index: 10;
   transition: all 0.3s ease;
 
@@ -84,7 +84,7 @@ color: black;
   width: 100%;
   z-index: 10;
   padding: 20px;
-  background-color: black;
+  background-color: white;
 
   display: flex;
   flex-direction: row;
@@ -118,10 +118,12 @@ color: black;
   padding: 5px;
   border-bottom: 1px solid transparent;
 
-  color: white;
+  color: black;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  font-size: 20px;
 }
 
 .nav-button:hover{
@@ -1065,4 +1067,7 @@ color: black;
   100% {
       transform: translateX(-50%);
   }
+}
+.bars{
+  color: black;
 }
